@@ -1,75 +1,57 @@
-<p>Clarusway<img align="right"
-  src="https://secure.meetupstatic.com/photos/event/3/1/b/9/600_488352729.jpeg"  width="15px"></p>
-
 # Random User App
+### Outcome
+![random-user](https://github.com/vildancetin/random-user/assets/75564722/94def24d-3890-415a-9c39-cb6ce73bd8a3)
 
-## Description
-
-Project aims to create a Random User App.
-
-## Problem Statement
-
-- We are adding a new project to our portfolios. So you and your colleagues have started to work on the project.
-
-## Project Skeleton
-
+This project utilizes an API to retrieve and display random user information. When a user hovers over the icons, the user's information is displayed on the screen. To achieve this, a function was created to fetch data using the fetch method. The data is of type object, and a state is established to handle this data. 
+```javascript
+const getUser = () => {
+    try {
+      fetch(url)
+        .then((res) => {
+          if(!res.ok){
+            throw new Error("Something went wrong")
+          }
+          return res.json()
+        })
+        .then((data) => setUser(data.results[0]));
+    } catch (error) {
+      console.log(error);
+    }finally{
+      setLoading(false)
+    }
+  };
 ```
-03 - Random User App
-|
-|----readme.md         # Given to the students (Definition of the project)
-SOLUTION
-├── public
-│     └── index.html
-├── src
-│    ├── assets.js
-│    │       └── [images]
-│    ├── App.js
-│    ├── App.css
-│    ├── index.js
-│    └── index.css
-├── package.json
-└── yarn.lock
+Additionally, a loading GIF is incorporated to inform the user during page loading.
+
+The info state is responsible for holding the icon data, including the data-label and name. This information is dynamically written to the DOM.
+```javascript
+  const handleIcon = (personInfo) => {
+    setInfo(personInfo);
+  };
+onMouseEnter={(e) => handleIcon(e.target.dataset.label)}
 ```
+#### Add User
+To add user information, users can click the "Add" button. For this purpose, another state is created to store information in an array. The information is then saved to the local storage. If the local storage is not empty, a list is retrieved from it, and the additional section is updated accordingly.
 
-## Expected Outcome
-
-![Project Snapshot](./random-user-app.gif)
-
-## Objective
-
-Build a Random User App using ReactJS.
-
-### At the end of the project, following topics are to be covered;
-
-- HTML
-
-- CSS
-
-- JS
-
-- ReactJS
-
-### At the end of the project, students will be able to;
-
-- Improve coding skills within HTML & CSS & JS & ReactJS.
-
-- Use git commands (push, pull, commit, add etc.) and Github as Version Control System.
-
-## Steps to Solution
-
-- Step 1: Create React App using `yarn && yarn start`.
-
-- Step 2: Build Random User App fetching data from `https://randomuser.me/api/` using `fetch` or `axios`.
-
-- Step 3: Push your application into your own public repo on Github.
-
-- Step 4: Add project gif to your project and README.md file.
-
-## Notes
-
-- You can add additional functionalities and design to your app.
-
-**<p align="center">&#9786; Happy Coding &#9997;</p>**
-## Demo
-
-[Live](https://randomuser-two-cw.vercel.app/)
+```javascript
+  const addUserToList = () => {
+    if (user) {
+      if (!addUserList.includes(user)) {
+        setAddUserList([...addUserList, user]);
+        localStorage.setItem("userlist",JSON.stringify(addUserList))
+      }
+      else{notify()}
+    }};
+```
+##### Toast message
+To handle the case of adding the same user again, react-toastify has been integrated. Upon attempting to add an existing user, a toast message is triggered, providing informative feedback to the user.
+```javascript
+  const notify=()=>toast.warn('You cannot add twice!', { position: "top-right", autoClose: 3000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "colored",});
+```
+#### New User
+To view new user information, users can click the "New User" button. This button triggers the getUser function, fetching and displaying new user information.
+```javascript
+<button className="btn" type="button" onClick={getUser}>new user</button>
+```
+### Live
+[Live](https://random-user-vildan.netlify.app/)
