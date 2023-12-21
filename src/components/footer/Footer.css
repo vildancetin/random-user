@@ -1,0 +1,24 @@
+:root{
+  --clr-grey-3: hsl(209, 34%, 30%);
+}
+.footer-div {
+  width: 80vw;
+  min-width: 400px;
+  background-color: #bc4749;
+  height: 50px;
+  font-size: 2rem;
+  color: var(--clr-grey-3);
+  border: 0.5px solid #9d4d8c;
+  border-radius: 5px;
+  margin: 50px 0px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+}
+
+.brand {
+  color: var(--clr-grey-3);
+  font-weight: bold;
+  margin-right: 1.5rem;
+  letter-spacing: .8rem
+}
